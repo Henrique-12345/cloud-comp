@@ -1,11 +1,11 @@
 from fastapi import FastAPI
+from pydantic import BaseModel
 
-app = FastAPI(
-    title="Meu Projeto FastAPI",
-    description="Projeto exemplo com rota /auth/me",
-    version="1.0.0"
-)
+app = FastAPI()
 
-@app.get("/auth/me")
-async def read_me():
-    return {"status": "Hello World"}
+class UserRequest(BaseModel):
+    user: str
+
+@app.post("/auth/me")
+async def auth_me(req: UserRequest):
+    return {"user": req.user, "ping": "pong"}
